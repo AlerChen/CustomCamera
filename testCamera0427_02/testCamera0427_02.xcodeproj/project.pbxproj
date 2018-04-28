@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8067F2A620930D5200669580 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8067F2A520930D5200669580 /* AppDelegate.m */; };
-		8067F2A920930D5200669580 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8067F2A820930D5200669580 /* ViewController.m */; };
 		8067F2AC20930D5200669580 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8067F2AA20930D5200669580 /* Main.storyboard */; };
 		8067F2AE20930D5200669580 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8067F2AD20930D5200669580 /* Assets.xcassets */; };
 		8067F2B120930D5200669580 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8067F2AF20930D5200669580 /* LaunchScreen.storyboard */; };
@@ -51,8 +50,6 @@
 		8067F2A120930D5200669580 /* testCamera0427_02.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testCamera0427_02.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8067F2A420930D5200669580 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8067F2A520930D5200669580 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		8067F2A720930D5200669580 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		8067F2A820930D5200669580 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		8067F2AB20930D5200669580 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8067F2AD20930D5200669580 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8067F2B020930D5200669580 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -147,8 +144,6 @@
 				8067F2A520930D5200669580 /* AppDelegate.m */,
 				8067F2DF20931B3F00669580 /* HomeViewController.h */,
 				8067F2E020931B3F00669580 /* HomeViewController.m */,
-				8067F2A720930D5200669580 /* ViewController.h */,
-				8067F2A820930D5200669580 /* ViewController.m */,
 				80C012032094523B000380B1 /* CameraViewController.h */,
 				80C012042094523B000380B1 /* CameraViewController.m */,
 				8067F2AA20930D5200669580 /* Main.storyboard */,
@@ -496,7 +491,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				80C012052094523B000380B1 /* CameraViewController.m in Sources */,
-				8067F2A920930D5200669580 /* ViewController.m in Sources */,
 				8067F2B420930D5200669580 /* main.m in Sources */,
 				8067F2A620930D5200669580 /* AppDelegate.m in Sources */,
 				8067F2E120931B3F00669580 /* HomeViewController.m in Sources */,

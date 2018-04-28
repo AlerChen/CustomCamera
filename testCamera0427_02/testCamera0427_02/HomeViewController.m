@@ -8,7 +8,6 @@
 
 #import "HomeViewController.h"
 #import <Masonry.h>
-#import "ViewController.h"
 #import "CameraViewController.h"
 
 
