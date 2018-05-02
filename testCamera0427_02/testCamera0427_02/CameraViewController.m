@@ -1,6 +1,6 @@
 //
 //  ViewController.m
-//  testCamera0427_02
+//  Uke
 //
 //  Created by TopScore-AI on 2018/4/27.
 //  Copyright © 2018年 TopScore-AI. All rights reserved.
@@ -15,48 +15,59 @@
 #define KScreenHeight KScreenBounds.size.height*1.0
 
 @interface CameraViewController ()
-    
-//  捕获设备，通常是前置摄像头，后置摄像头，麦克风（音频输入）
+
+//  捕获设备
 @property(nonatomic)AVCaptureDevice * device;
-    
-//  AVCaptureDeviceInput 代表输入设备，他使用AVCaptureDevice 来初始化
+
+//  输入设备
 @property(nonatomic)AVCaptureDeviceInput * input;
-    
-//  当启动摄像头开始捕获输入
+
+//  Output
 @property(nonatomic)AVCaptureMetadataOutput * output;
-    
-//  imageOutPut
+
+//  ImageOutPut
 @property (nonatomic)AVCaptureStillImageOutput * imageOutPut;
-    
-//  session：由他把输入输出结合在一起，并开始启动捕获设备（摄像头）
+
+//  Session
 @property(nonatomic)AVCaptureSession * session;
-    
-//  图像预览层，实时显示捕获的图像
+
+//  图像预览层
 @property(nonatomic)AVCaptureVideoPreviewLayer * previewLayer;
 
+//  右按钮
 @property(strong,nonatomic) UIButton * rightButton;
 
+//  完成按钮
 @property(strong,nonatomic) UIButton * finishedButton;
 
-
+//  拍照按钮
 @property (nonatomic)UIButton * PhotoButton;
-@property (nonatomic)UIButton * flashButton;
-@property (nonatomic)UIImageView * imageView;
-@property (nonatomic)UIView * focusView;
-@property (nonatomic)UIImage * image;
-@property (nonatomic)BOOL isflashOn;
 
-/**
- 是否可用相机状态
- */
+//  闪光按钮
+@property (nonatomic)UIButton * flashButton;
+
+//  拍摄图片视图
+@property (nonatomic)UIImageView * imageView;
+
+//  聚焦视图
+@property (nonatomic)UIView * focusView;
+
+//  image
+@property (nonatomic)UIImage * image;
+
+//
+//@property (nonatomic)BOOL isflashOn;
+
+//  是否可用相机状态
 @property (nonatomic)BOOL canCa;
-    
+
 @end
 
 @implementation CameraViewController
-    
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self configureInfo];
     
     _canCa = [self canUseCamear];
@@ -70,14 +81,17 @@
 }
 
 #pragma mark - Configure Info
-    
+
 - (void)configureInfo
 {
     self.view.backgroundColor = [UIColor whiteColor];
 }
-    
+
 #pragma mark - SetupUI
-    
+
+/**
+ Set up UI
+ */
 - (void)setupUI
 {
     [self setupCamera];
@@ -89,7 +103,10 @@
     [self addTapGesture];
     
 }
-    
+
+/**
+ Set up Photo Button
+ */
 - (void)setupPhotoButton
 {
     _PhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -107,7 +124,10 @@
     [_PhotoButton addTarget:self action:@selector(shutterCamera) forControlEvents:UIControlEventTouchUpInside];
     
 }
-    
+
+/**
+ Set up Left Button
+ */
 - (void)setupLeftButton
 {
     UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -126,7 +146,10 @@
     [leftButton addTarget:self action:@selector(cancle) forControlEvents:UIControlEventTouchUpInside];
     
 }
-    
+
+/**
+ Set up Right Button
+ */
 - (void)setupRightButton
 {
     _rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -145,6 +168,9 @@
     [_rightButton addTarget:self action:@selector(changeCamera) forControlEvents:UIControlEventTouchUpInside];
 }
 
+/**
+ Set up Finished Button
+ */
 - (void)setupFinishedButton
 {
     _finishedButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -164,7 +190,9 @@
     _finishedButton.hidden = YES;
 }
 
-
+/**
+ Set up Focus View
+ */
 - (void)setupFocusView
 {
     _focusView = [[UIView alloc]init];
@@ -182,29 +210,27 @@
     
     _focusView.hidden = YES;
 }
-    
+
+/**
+ 添加点击手势
+ */
 - (void)addTapGesture
 {
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(focusGesture:)];
+    UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(focusGesture:)];
     [self.view addGestureRecognizer:tapGesture];
 }
-    
-    
+
+/**
+ 设置摄像头
+ */
 - (void)setupCamera
 {
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    //  使用AVMediaTypeVideo 指明self.device代表视频，默认使用后置摄像头进行初始化
     self.device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    
-    //  使用设备初始化输入
     self.input = [[AVCaptureDeviceInput alloc]initWithDevice:self.device error:nil];
-    
-    //  生成输出对象
     self.output = [[AVCaptureMetadataOutput alloc]init];
     self.imageOutPut = [[AVCaptureStillImageOutput alloc] init];
     
-    //  生成会话，用来结合输入输出
     self.session = [[AVCaptureSession alloc]init];
     if ([self.session canSetSessionPreset:AVCaptureSessionPreset1280x720]) {
         
@@ -219,32 +245,31 @@
         [self.session addOutput:self.imageOutPut];
     }
     
-    //  使用self.session，初始化预览层，self.session负责驱动input进行信息的采集，layer负责把图像渲染显示
     self.previewLayer = [[AVCaptureVideoPreviewLayer alloc]initWithSession:self.session];
     self.previewLayer.frame = CGRectMake(0, 0, KScreenWidth, KScreenHeight);
     self.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     [self.view.layer addSublayer:self.previewLayer];
     
-    //  开始启动
+    // StartRunning
     [self.session startRunning];
     if ([_device lockForConfiguration:nil]) {
         if ([_device isFlashModeSupported:AVCaptureFlashModeAuto]) {
             [_device setFlashMode:AVCaptureFlashModeAuto];
         }
-        //  自动白平衡
+        
         if ([_device isWhiteBalanceModeSupported:AVCaptureWhiteBalanceModeAutoWhiteBalance]) {
             [_device setWhiteBalanceMode:AVCaptureWhiteBalanceModeAutoWhiteBalance];
         }
         [_device unlockForConfiguration];
     }
 }
-    
+
 #pragma mark - Action Method
-    
+
 #pragma mark  截取照片
 
 /**
- 截取照片
+ *  截取照片
  */
 - (void)shutterCamera
 {
@@ -261,7 +286,6 @@
         NSData * imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
         self.image = [UIImage imageWithData:imageData];
         [self.session stopRunning];
-        //[self saveImageToPhotoAlbum:self.image];
         self.imageView = [[UIImageView alloc]initWithFrame:self.previewLayer.frame];
         [self.view insertSubview:_imageView belowSubview:_PhotoButton];
         self.imageView.layer.masksToBounds = YES;
@@ -273,7 +297,7 @@
         
     }];
 }
-    
+
 #pragma mark Cancel
 /**
  *  取消
@@ -343,23 +367,32 @@
 #pragma mark Finished
 
 /**
- 完成按钮点击事件
+ *  完成按钮点击事件
  */
 - (void)finishedButtonDidClick
 {
     [self.imageView removeFromSuperview];
     [self.session startRunning];
-    
     if ([self.delegate respondsToSelector:@selector(cameraViewControllerDidFinishedTakePhoto:)]) {
-        [self.delegate cameraViewControllerDidFinishedTakePhoto:self.image];
+        
+        CGImageRef imageRegOrigin =[self.image CGImage];
+        
+        unsigned long cSizeWidth = CGImageGetWidth(imageRegOrigin);
+        unsigned long cSizeHeight = CGImageGetHeight(imageRegOrigin);
+        CGImageRef imageReg = CGImageCreateWithImageInRect(imageRegOrigin, CGRectMake(cSizeWidth/4, 0, cSizeHeight, cSizeHeight));
+        // 旋转位图
+        UIImage * image = [UIImage imageWithCGImage:imageReg scale:1.0 orientation:UIImageOrientationRight];
+        // Image Release
+        CGImageRelease(imageReg);
+        [self.delegate cameraViewControllerDidFinishedTakePhoto:image];
     }
 }
 
 #pragma mark Save Image To Photo Album
 
 /**
- 保存图片至相册
-
+ *  保存图片至相册
+ *
  @param savedImage 拍摄图片
  */
 - (void)saveImageToPhotoAlbum:(UIImage*)savedImage
@@ -388,15 +421,15 @@
     
     NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
     for ( AVCaptureDevice *device in devices )
-    if ( device.position == position ) return device;
+        if ( device.position == position ) return device;
     return nil;
 }
-    
-#pragma mark  聚焦
-    
-/**
- 聚焦功能
 
+#pragma mark  聚焦
+
+/**
+ *  聚焦功能
+ *
  @param gesture 手势
  */
 - (void)focusGesture:(UITapGestureRecognizer*)gesture{
@@ -436,7 +469,6 @@
         }];
     }
 }
-
 
 #pragma mark - Reuse Code
 #pragma mark 检查相机权限
